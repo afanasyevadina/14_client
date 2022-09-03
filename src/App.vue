@@ -542,6 +542,8 @@ export default {
       a.href = 'data:application/json,' + encodeURIComponent(JSON.stringify({
         options: this.options,
         layers: this.layers,
+        snapshots: this.snapshots,
+        state: {currentSnapshot: this.state.currentSnapshot},
         stamps: this.stamps.map(stamp => ({src: stamp.src}))
       }))
       a.download = `${new Date().getFullYear()}${this.leadZero(new Date().getMonth())}${this.leadZero(new Date().getDate())}_${this.leadZero(new Date().getHours())}${this.leadZero(new Date().getMinutes())}${this.leadZero(new Date().getSeconds())}.sdp`
@@ -555,9 +557,10 @@ export default {
           if (content.options) this.options = {...content.options}
           if (content.layers) this.layers = [...content.layers]
           if (content.stamps) this.stamps = [...content.stamps]
+          if (content.state?.currentSnapshot) this.state.currentSnapshot = content.state?.currentSnapshot
+          if (content.snapshots) this.snapshots = [...content.snapshots]
           this.$nextTick(() => {
             this.layers.forEach(layer => this.initializeCanvas(layer))
-            this.makeSnapshot()
           })
         }
         reader.readAsText(event.target.files[0])
