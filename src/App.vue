@@ -590,7 +590,7 @@ export default {
     }
   },
   mounted() {
-    this.init()
+    //this.init()
     window.onmouseup = this.mouseup
   }
 }
